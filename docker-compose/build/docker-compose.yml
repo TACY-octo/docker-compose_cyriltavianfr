@@ -4,15 +4,14 @@ services:
     image: jenkins/jenkins:lts
     volumes:
       - jenkins_data:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/local/bin/docker:/usr/local/bin/docker
+      - /var/run/docker.sock:/var/run/docker.sock:rw
     networks: 
       - web
     labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.cyriltavian.rule=Host(`build.cyril-tavian.fr`)"
-        - "traefik.http.routers.cyriltavian.entrypoints=websecure"
-        - "traefik.http.routers.cyriltavian.tls.certresolver=letsencrypt"
+      - "traefik.enable=true"
+      - "traefik.http.routers.jenkins.rule=Host(`build.cyril-tavian.fr`)"
+      - "traefik.http.routers.jenkins.entrypoints=websecure"
+      - "traefik.http.routers.jenkins.tls.certresolver=letsencrypt"
     restart: always
 networks:
   web: 

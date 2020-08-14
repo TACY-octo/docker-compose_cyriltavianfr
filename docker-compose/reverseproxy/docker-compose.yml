@@ -1,0 +1,48 @@
+version: '3.1'
+
+secrets:
+  # Emplacement des secrets 
+  ovh_endpoint:
+    file: "./secrets/ovh_endpoint.secret"
+  ovh_application_key:
+    file: "./secrets/ovh_application_key.secret"
+  ovh_application_secret:
+    file: "./secrets/ovh_application_secret.secret"
+  ovh_consumer_key:
+    file: "./secrets/ovh_consumer_key.secret"
+
+services: 
+  traefik:
+    image: traefik:v2.2
+
+    # Configuration des secrets 
+    secrets:
+      - "ovh_endpoint"
+      - "ovh_application_key"
+      - "ovh_application_secret"
+      - "ovh_consumer_key"
+    
+    # Création des variables d'environnement à partir des secrets dockers. 
+    environment:
+      - "OVH_ENDPOINT_FILE=/run/secrets/ovh_endpoint"
+      - "OVH_APPLICATION_KEY_FILE=/run/secrets/ovh_application_key"
+      - "OVH_APPLICATION_SECRET_FILE=/run/secrets/ovh_application_secret"
+      - "OVH_CONSUMER_KEY_FILE=/run/secrets/ovh_consumer_key"
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/traefik.yml:/etc/traefik/traefik.yml
+      - ./config/acme.json:/acme.json 
+      
+    restart: always 
+    
+    networks: 
+      - web
+
+networks:
+  web: 
+    external: true

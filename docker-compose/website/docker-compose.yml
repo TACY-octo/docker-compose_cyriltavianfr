@@ -1,0 +1,17 @@
+version: '3'
+
+services: 
+  cyriltavian: 
+    image: nexaoo/cyriltavian:latest
+    networks: 
+      - web
+    labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.cyriltavian.rule=Host(`www.cyril-tavian.fr`, `cyril-tavian.fr`)"
+        - "traefik.http.routers.cyriltavian.entrypoints=websecure"
+        - "traefik.http.routers.cyriltavian.tls.certresolver=letsencrypt"
+    restart: always
+    
+networks:
+  web: 
+    external: true

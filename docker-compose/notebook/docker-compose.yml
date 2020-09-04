@@ -1,0 +1,16 @@
+version: '3'
+services:
+  jupyter:
+    image: nexaoo/jupyter:0.0.1
+    networks:
+      - web
+    labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.notebook.rule=Host(`notebook.cyril-tavian.fr`, `jupyter.cyril-tavian.fr`)"
+        - "traefik.http.routers.notebook.entrypoints=websecure"
+        - "traefik.http.routers.notebook.tls.certresolver=letsencrypt"
+    restart: always
+
+networks:
+  web:
+    external: true

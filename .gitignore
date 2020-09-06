@@ -1,2 +1,4 @@
 docker-compose/reverseproxy/secrets
 docker-compose/reverseproxy/config/acme.json
+docker-compose/scm/secrets
+docker-compose/scm/data
